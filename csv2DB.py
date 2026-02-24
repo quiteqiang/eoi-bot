@@ -52,4 +52,19 @@ def readDB(db_file):
   for row in rows:
     print(row)
 
-readDB("test01.db")
+def schemaCheck(db_file, table):
+  conn = sqlite3.connect(db_file)
+  cursor = conn.cursor()
+  # 获取表结构
+  schema = cursor.execute(f"PRAGMA table_info({table})").fetchall()
+  schema_str = f"CREATE TABLE {table} (\n" + "\n".join([f"{col[1]} {col[2]}" for col in schema]) + "\n)"
+  print("数据库Schema:")
+  print(schema_str)
+  print("******************************")
+
+# csv2DB()
+# schemaCheck("test01.db", "eoi_test_01")
+readDB('test01.db')
+
+
+
